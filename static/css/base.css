@@ -1,5 +1,21 @@
 h1{
-    color: red;
+    color:black;
+    text-align: center;
     }
+.form-container {
+    display:flex;
+    justify-content: center;
+}
+.form-center {
+	display:flex;
+	justify-content: center;
+}
+
+
+
+
+.image-submit{
+    margin: 0 auto;
+}
 
     
