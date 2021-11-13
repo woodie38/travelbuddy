@@ -21,7 +21,7 @@ def homePageView(request):
         #save image into the system 
         img = request.FILES['image']
         img_name = img.name
-        print(img_name)
+        
 
         #save image to a database
         uploadedimage_instance.image = img
@@ -33,7 +33,6 @@ def homePageView(request):
         
         #here, use destination API to search for number of ppl 
         similarity_dict_t10 = recommend.get_top_10_similarity(img,all_places)
-        print('similarity_dict is '+str(similarity_dict_t10))
 
         traffic_dict = {}
         for name in similarity_dict_t10.keys():
@@ -45,8 +44,22 @@ def homePageView(request):
             
         
         top_three = list(sorted(traffic_dict.items(), key=lambda item: item[1]))[:3]
-        print(top_three)
+        three_names = []
 
+        for i in range(len(top_three)):
+            three_names.append(top_three[i][0])
+        
+        
+
+        place_list = []
+        for name in three_names: 
+            place = Places.objects.get(name = name)
+            place_list.append(place)
+        print(place_list)
+
+        return render(request,'home.html', {'three_places' : place_list})
+
+        
 
 
         # get the bottom3 

@@ -13,6 +13,9 @@ class Places(models.Model):
     image = models.ImageField(default = '북촌.jpeg' )
     location = models.CharField(max_length = 30)
 
+    def __str__(self):
+        return self.name
+
 class Foot_Traffic(models.Model):
     place = models.ForeignKey(Places , on_delete=models.CASCADE)
     traffic_level = models.FloatField()

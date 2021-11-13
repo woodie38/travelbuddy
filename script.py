@@ -46,12 +46,12 @@ def place_images():
     
     count = 0
     for place in places_list: 
-        if count <5:
-            count_str = str(count)
-            img = 'photo370(num)/' + count_str +".jpg"
-            place.image = img
-            count += 1
-            place.save()
+        
+        count_str = str(count)
+        img = 'photo370(num)/' + count_str +".jpg"
+        place.image = img
+        count += 1
+        place.save()
     
 
 def list_image_names(): 
