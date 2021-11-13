@@ -10,5 +10,6 @@ class Places(models.Model):
     name = models.CharField(max_length = 30)
     image_url = models.CharField(max_length = 100)
     rgb = PickledObjectField()
+    image = models.ImageField(default = '북촌.jpeg' )
     
 

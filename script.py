@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import pickle 
 from recommendations.models import Places 
+from glob import glob 
 
 def get_final_dict():
     # first get the df
@@ -29,7 +30,7 @@ def get_final_dict():
 
 #df_records = rgb_df.to_dict('records') 
 
-df_records = get_final_dict()
+"""f_records = get_final_dict()
 count = 0 
 for record in df_records: 
     if count == 0: 
@@ -39,7 +40,27 @@ for record in df_records:
         p = Places(name = name, image_url = image_url,rgb = rgb)
         p.save()
     else: 
-        break
+        break"""
+def place_images():
+    places_list = Places.objects.order_by("id")
+    
+    count = 0
+    for place in places_list: 
+        if count <5:
+            count_str = str(count)
+            img = 'photo370(num)/' + count_str +".jpg"
+            place.image = img
+            count += 1
+            place.save()
+    
+
+def list_image_names(): 
+    count =0 
+    for file in glob('photo370(num)/*'):
+        if count < 10: 
+            print(file, type(file))
+            count+=1
+
 
 
 
