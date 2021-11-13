@@ -36,19 +36,16 @@ def homePageView(request):
         print('similarity_dict is '+str(similarity_dict_t10))
 
         traffic_dict = {}
-        count = 0
         for name in similarity_dict_t10.keys():
-            if count == 0: 
-                foot_traffic_objects = Foot_Traffic.objects.filter(place__name = name)
-                print('foot_traffic_objects are '+ str(foot_traffic_objects))
-                mean_traffic = foot_traffic_objects.aggregate(Avg('traffic_level'))
-                print('mean traffic is '+ str(mean_traffic))
-                traffic_dict[name] = mean_traffic
-                count+=1
-
-        print('traffic_dict is ') + str(traffic_dict)
-        #top_three = traffic_dict[:3]
-        #print(top_three)
+            
+            foot_traffic_objects = Foot_Traffic.objects.filter(place__name = name)
+            mean_traffic = foot_traffic_objects.aggregate(Avg('traffic_level'))
+            mean_traffic = mean_traffic['traffic_level__avg']
+            traffic_dict[name] = mean_traffic
+            
+        
+        top_three = list(sorted(traffic_dict.items(), key=lambda item: item[1]))[:3]
+        print(top_three)
 
 
 
