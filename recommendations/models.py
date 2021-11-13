@@ -11,5 +11,12 @@ class Places(models.Model):
     image_url = models.CharField(max_length = 100)
     rgb = PickledObjectField()
     image = models.ImageField(default = '북촌.jpeg' )
+    location = models.CharField(max_length = 30)
+
+class Foot_Traffic(models.Model):
+    place = models.ForeignKey(Places , on_delete=models.CASCADE)
+    traffic_level = models.FloatField()
+    date = models.DateField()
+
     
 

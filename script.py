@@ -1,7 +1,7 @@
 import pandas as pd 
 import numpy as np
 import pickle 
-from recommendations.models import Places 
+from recommendations.models import Foot_Traffic, Places 
 from glob import glob 
 
 def get_final_dict():
@@ -62,6 +62,51 @@ def list_image_names():
             count+=1
 
 
+def get_rgb():
+    count = 0 
+    places = Places.objects.all()
+    for place in places: 
+        if count<5:
+            print(place.rgb)
+        else:
+            break
 
+def set_location():
+    foot_traffic = pd.read_csv('foot_traffic.csv')
+    foot_traffic.drop_duplicates(subset = "title" , inplace = True)
+    location = foot_traffic['galphotographylocation']
+    l = location.to_list()
+
+    count = 0
+    places = Places.objects.all()
+    for place in places:
+        place_location = l[count] 
+        place.location = place_location
+        place.save()
+        count+=1
+
+def set_foottraffic():
+    foot_traffic_df = pd.read_csv('foot_traffic.csv')
+    df_records = foot_traffic_df.to_dict('records')
+
+    
+
+    #model_instances = [Foot_Traffic(place = Foot_Traffic.objects.get(place__name=record['title']),
+                                    #traffic_level  = record['estidecorat'] , 
+                                    #date = record['baseymd'])
+                                    # for record in df_records]
+    count = 0 
+    for record in df_records: 
+        if count <3:
+            place_name = record['title']
+            traffic = record['estidecorat']
+            date = record['baseymd']
+
+            place =Places.objects.get(name = place_name)
+            Foot_Traffic.objects.create(place=place, traffic_level = traffic, date = date)
+        else:
+            break
+
+    #Foot_Traffic.objects.bulk_create(model_instances)
 
 
